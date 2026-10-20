@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Site Dashboard | Nayeem Origin</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--acc:#2563eb;--ok:#15803d;--warn:#b45309;--bad:#b91c1c}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#111a2e;--ink:#e5e7eb;--mut:#94a3b8;--line:#22304a;--acc:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 16px}
+h1{margin:0 0 4px;font-size:26px}
+.sub{color:var(--mut);margin:0 0 20px}
+.top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.btn{display:inline-block;padding:8px 14px;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:#fff;font:600 14px inherit;text-decoration:none;cursor:pointer}
+.btn.alt{background:transparent;color:var(--acc)}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.sum div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.sum b{display:block;font-size:26px}
+.sum span{color:var(--mut);font-size:13px}
+.tw{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:980px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--mut);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.pn b{display:block}.pn small{color:var(--mut)}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.cell small{display:block;color:var(--mut);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+select,input[type=text]{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font:inherit}
+.acts a{display:block;color:var(--acc);text-decoration:none;font-weight:600;font-size:14px}
+.acts a:hover{text-decoration:underline}
+.note{color:var(--mut);font-size:13px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top">
+<div><h1>Site dashboard</h1><p class="sub" id="sub">Scanning pages...</p></div>
+<div><button class="btn" id="scan" type="button">Scan again</button> <a class="btn alt" id="newpage" target="_blank" rel="noopener">Add new page</a></div>
+</div>
+<div class="sum" id="sum"></div>
+<div class="tw"><table>
+<thead><tr><th>Page</th><th>Status</th><th>Title</th><th>Description</th><th>H1</th><th>Words</th><th>Images no alt</th><th>Stage and notes</th><th>Actions</th></tr></thead>
+<tbody id="rows"></tbody>
+</table></div>
+<p class="note">Rules: title 30 to 60 characters, description 70 to 160, exactly one H1. Stage and notes are saved in this browser only. This page is hidden from search engines but not password protected, so keep private information out of it. The scan only works on the live site, not when the file is opened from your computer.</p>
+</div>
+<script>
+// ---- Edit these if your repo changes ----
+var USER = "hmjoy816-boop", REPO = "DJ-Nayeem", BRANCH = "main";
+var PAGES = [
+ ["index.html","Home"],["about.html","About"],["services.html","Services"],
+ ["seo-audit.html","SEO Audit"],["technical-seo.html","Technical SEO"],["keyword-research.html","Keyword Research"],
+ ["on-page-seo.html","On-page SEO"],["off-page-seo.html","Off-page SEO"],["local-seo.html","Local SEO"],
+ ["aeo.html","AEO"],["geo.html","GEO"],["case-studies.html","Case Studies"],["reviews.html","Reviews"],["contact.html","Contact"]
+];
+var GH = "https://github.com/" + USER + "/" + REPO;
+document.getElementById("newpage").href = GH + "/new/" + BRANCH;
+var rows = document.getElementById("rows");
+
+function store(k, v){ try { if (v === undefined) return localStorage.getItem(k) || ""; localStorage.setItem(k, v); } catch (e) { return ""; } }
+function cls(ok, warn){ return ok ? "ok" : (warn ? "warn" : "bad"); }
+function el(tag, text, c){ var e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (c) e.className = c; return e; }
+
+function metric(td, text, c, sub){
+  td.className = "cell"; td.appendChild(el("span", text, c));
+  if (sub) td.appendChild(el("small", sub));
+}
+
+async function scanPage(p, tr){
+  var tds = tr.querySelectorAll("td"), r = {issues: 0, ok: false};
+  tds.forEach(function(t, i){ if (i > 0 && i < 7) t.textContent = ""; });
+  try {
+    var res = await fetch(p[0] + "?t=" + Date.now(), {cache: "no-store"});
+    if (!res.ok) throw new Error(res.status);
+    var doc = new DOMParser().parseFromString(await res.text(), "text/html");
+    var title = (doc.title || "").trim();
+    var md = doc.querySelector('meta[name="description"]');
+    var desc = md ? (md.getAttribute("content") || "").trim() : "";
+    var h1 = doc.querySelectorAll("h1").length;
+    var words = ((doc.querySelector("main") || doc.body).textContent.trim().match(/\S+/g) || []).length;
+    var noalt = Array.prototype.filter.call(doc.images, function(i){ return !(i.getAttribute("alt") || "").trim(); }).length;
+    var tOk = title.length >= 30 && title.length <= 60, dOk = desc.length >= 70 && desc.length <= 160;
+    r.ok = true;
+    metric(tds[1], "Live", "ok");
+    metric(tds[2], title.length + " chars", cls(tOk, title.length > 0), title || "Missing title");
+    metric(tds[3], desc.length + " chars", cls(dOk, desc.length > 0), desc || "Missing description");
+    metric(tds[4], String(h1), cls(h1 === 1, h1 > 1));
+    metric(tds[5], String(words), cls(words >= 250, words >= 100));
+    metric(tds[6], String(noalt), cls(noalt === 0));
+    r.issues = (tOk ? 0 : 1) + (dOk ? 0 : 1) + (h1 === 1 ? 0 : 1) + (noalt ? 1 : 0);
+  } catch (e) {
+    metric(tds[1], "Not found", "bad", "Upload " + p[0]);
+    r.issues = 1;
+  }
+  return r;
+}
+
+function build(){
+  PAGES.forEach(function(p){
+    var tr = document.createElement("tr");
+    var n = el("td"); n.className = "pn"; n.appendChild(el("b", p[1])); n.appendChild(el("small", p[0])); tr.appendChild(n);
+    for (var i = 0; i < 6; i++) tr.appendChild(el("td", "..."));
+    var sn = el("td"), sel = document.createElement("select");
+    ["Draft", "Needs work", "Ready", "Published"].forEach(function(s){ var o = el("option", s); sel.appendChild(o); });
+    sel.value = store("stage:" + p[0]) || "Draft";
+    sel.onchange = function(){ store("stage:" + p[0], sel.value); };
+    var note = document.createElement("input"); note.type = "text"; note.placeholder = "Note";
+    note.value = store("note:" + p[0]); note.style.marginTop = "6px";
+    note.oninput = function(){ store("note:" + p[0], note.value); };
+    sn.appendChild(sel); sn.appendChild(note); tr.appendChild(sn);
+    var ac = el("td"); ac.className = "acts";
+    var v = el("a", "View live"); v.href = p[0]; v.target = "_blank"; v.rel = "noopener";
+    var e = el("a", "Edit on GitHub"); e.href = GH + "/edit/" + BRANCH + "/" + p[0]; e.target = "_blank"; e.rel = "noopener";
+    ac.appendChild(v); ac.appendChild(e); tr.appendChild(ac);
+    tr._p = p; rows.appendChild(tr);
+  });
+}
+
+async function scanAll(){
+  document.getElementById("sub").textContent = "Scanning pages...";
+  var live = 0, issues = 0, trs = rows.children;
+  for (var i = 0; i < trs.length; i++){
+    var r = await scanPage(trs[i]._p, trs[i]);
+    if (r.ok) live++; issues += r.issues;
+  }
+  var sum = document.getElementById("sum"); sum.textContent = "";
+  [["Pages", PAGES.length], ["Live", live], ["Missing", PAGES.length - live], ["Issues found", issues]].forEach(function(x){
+    var d = el("div"); d.appendChild(el("b", String(x[1]))); d.appendChild(el("span", x[0])); sum.appendChild(d);
+  });
+  document.getElementById("sub").textContent = "Last scan: " + new Date().toLocaleTimeString();
+}
+build(); scanAll();
+document.getElementById("scan").onclick = scanAll;
+</script>
+</body>
+</html>
