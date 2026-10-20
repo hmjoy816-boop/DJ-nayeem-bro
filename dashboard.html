@@ -6,42 +6,61 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Site Dashboard | Nayeem Origin</title>
 <style>
-:root{--bg:#f4f7fb;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--acc:#2563eb;--ok:#15803d;--warn:#b45309;--bad:#b91c1c}
-@media (prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#111a2e;--ink:#e5e7eb;--mut:#94a3b8;--line:#22304a;--acc:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171}}
+:root{--bg:#f3f6fb;--card:#fff;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--acc:#2563eb;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--okb:#dcfce7;--warnb:#fef3c7;--badb:#fee2e2}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1220;--card:#111a2e;--ink:#e5e7eb;--mut:#94a3b8;--line:#22304a;--acc:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--okb:#12351f;--warnb:#3a2c0c;--badb:#3d1414}}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
-.wrap{max-width:1200px;margin:0 auto;padding:24px 16px}
-h1{margin:0 0 4px;font-size:26px}
-.sub{color:var(--mut);margin:0 0 20px}
-.top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+.bar{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.bw{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.brand{font-size:19px}.sub{display:block;color:var(--mut);font-size:13px}
 .btn{display:inline-block;padding:8px 14px;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:#fff;font:600 14px inherit;text-decoration:none;cursor:pointer}
-.btn.alt{background:transparent;color:var(--acc)}
-.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
-.sum div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
-.sum b{display:block;font-size:26px}
-.sum span{color:var(--mut);font-size:13px}
-.tw{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:980px}
-th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.btn.alt{background:transparent;color:var(--acc)}.btn:disabled{opacity:.6}
+main{padding-top:20px;padding-bottom:40px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+.sum div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.sum b{display:block;font-size:28px;line-height:1.2}.sum span{color:var(--mut);font-size:13px}
+.tools{display:flex;gap:10px;margin-bottom:12px}
+.tools input{flex:1}
+input,select,textarea{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;width:100%}
+.tools select{width:auto}
+.tw{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:760px}
+th,td{padding:12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
 th{font-size:12px;color:var(--mut);font-weight:600;background:var(--bg)}
 tr:last-child td{border-bottom:0}
-.pn b{display:block}.pn small{color:var(--mut)}
+tbody tr{cursor:pointer}tbody tr:hover{background:var(--bg)}
+.pn b{display:block}.pn small,.mut{color:var(--mut);font-size:13px}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600}
+.pill.ok{background:var(--okb);color:var(--ok)}.pill.warn{background:var(--warnb);color:var(--warn)}.pill.bad{background:var(--badb);color:var(--bad)}.pill.n{background:var(--bg);color:var(--mut)}
 .ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
-.cell small{display:block;color:var(--mut);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-select,input[type=text]{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font:inherit}
-.acts a{display:block;color:var(--acc);text-decoration:none;font-weight:600;font-size:14px}
-.acts a:hover{text-decoration:underline}
-[hidden]{display:none!important}
+.note{color:var(--mut);font-size:13px;margin-top:14px}
+#ov{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:40}
+#dr{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg);z-index:50;overflow-y:auto;box-shadow:-10px 0 30px rgba(0,0,0,.2)}
+.dh{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);padding:14px 18px;display:flex;justify-content:space-between;gap:10px;align-items:start}
+.dh h2{margin:0;font-size:20px}.dh a{color:var(--acc);font-weight:600;font-size:14px;margin-right:12px;text-decoration:none}
+.x{background:none;border:0;font-size:24px;color:var(--mut);cursor:pointer;line-height:1}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:14px 18px;padding:16px}
+.sec h3{margin:0 0 10px;font-size:15px}
+.serp{font-family:Arial,sans-serif}.serp .t{color:#1a0dab;font-size:19px;line-height:1.25}.serp .u{color:#188038;font-size:13px}.serp .d{color:#4d5156;font-size:14px}
+@media (prefers-color-scheme:dark){.serp .t{color:#8ab4f8}.serp .u{color:#81c995}.serp .d{color:#bdc1c6}}
+.ck{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--line);font-size:14px}.ck:last-child{border:0}.ck i{font-style:normal;width:18px;font-weight:700}
+.hl div{font-size:13px;padding:1px 0}.hl .h2{margin-left:14px}.hl .h3{margin-left:28px}
+label.l{display:block;font-weight:600;font-size:13px;margin:10px 0 4px}
+.cnt{float:right;font-weight:400}
+.msg{margin-top:8px;font-size:14px}
+textarea.src{font:12px/1.4 ui-monospace,Consolas,monospace;min-height:260px;white-space:pre}
+.todo label{display:block;padding:3px 0}.todo input{width:auto;margin-right:8px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 #login{max-width:420px;margin:12vh auto;padding:0 16px}
 #login .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
-#login h1{font-size:22px}
+#login h1{font-size:22px;margin:0 0 4px}
 #login label{display:block;margin:14px 0 4px;font-weight:600;font-size:14px}
-#login input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
 #login .btn{margin-top:18px;width:100%}
 #login p{color:var(--mut);font-size:13px}
 #msg{color:var(--bad);min-height:20px}
 #out{font:13px/1.4 ui-monospace,Consolas,monospace;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;word-break:break-all;white-space:pre-wrap;user-select:all}
-.note{color:var(--mut);font-size:13px;margin-top:14px}
 </style>
 </head>
 <body>
@@ -55,20 +74,23 @@ select,input[type=text]{width:100%;padding:6px 8px;border:1px solid var(--line);
 </form>
 <div id="setup" hidden><p>Copy the line below, then in GitHub open dashboard.html, click the pencil icon, and replace the line that starts with <b>var CRED_HASH</b>. Commit the change and reload this page.</p><div id="out"></div></div>
 </div></div>
-<div id="app" hidden><div class="wrap">
-<div class="top">
-<div><h1>Site dashboard</h1><p class="sub" id="sub">Scanning pages...</p></div>
-<div><button class="btn" id="scan" type="button">Scan again</button> <button class="btn alt" id="logout" type="button">Log out</button> <a class="btn alt" id="newpage" target="_blank" rel="noopener">Add new page</a></div>
-</div>
+
+<div id="app" hidden>
+<header class="bar"><div class="wrap bw">
+<div><b class="brand">Nayeem Origin dashboard</b><span class="sub" id="sub">Scanning pages...</span></div>
+<div><button class="btn" id="scan" type="button">Rescan all</button> <a class="btn alt" id="newpage" target="_blank" rel="noopener">New page</a> <button class="btn alt" id="logout" type="button">Log out</button></div>
+</div></header>
+<main class="wrap">
 <div class="sum" id="sum"></div>
+<div class="tools"><input id="q" type="search" placeholder="Search pages"><select id="flt"><option value="all">All pages</option><option value="issues">Needs attention</option><option value="missing">Missing</option></select></div>
 <div class="tw"><table>
-<thead><tr><th>Page</th><th>Status</th><th>Title</th><th>Description</th><th>H1</th><th>Words</th><th>Images no alt</th><th>Stage and notes</th><th>Actions</th></tr></thead>
-<tbody id="rows"></tbody>
-</table></div>
-<p class="note">Rules: title 30 to 60 characters, description 70 to 160, exactly one H1. Stage and notes are saved in this browser only. The login is a basic lock that runs in your browser, so keep private information out of this page. The scan only works on the live site, not when the file is opened from your computer.</p>
-</div></div>
+<thead><tr><th>Page</th><th>Status</th><th>Score</th><th>Title</th><th>Description</th><th>Words</th><th>Stage</th></tr></thead>
+<tbody id="rows"></tbody></table></div>
+<p class="note">Click any page to see its details and edit it. Score = share of SEO checks passed. Stage, priority, notes and checklists are saved in this browser only. The login is a basic lock that runs in your browser, so keep private information out of this page. Scanning only works on the live site.</p>
+</main></div>
+<div id="ov" hidden></div><aside id="dr" hidden></aside>
+
 <script>
-// ---- Edit these if your repo changes ----
 var USER = "hmjoy816-boop", REPO = "DJ-nayeem-bro", BRANCH = "main";
 if (/\.github\.io$/.test(location.hostname)) { USER = location.hostname.split(".")[0]; var seg = location.pathname.split("/")[1]; if (seg && !/\.html$/.test(seg)) REPO = seg; }
 var PAGES = [
@@ -77,87 +99,181 @@ var PAGES = [
  ["on-page-seo.html","On-page SEO"],["off-page-seo.html","Off-page SEO"],["local-seo.html","Local SEO"],
  ["aeo.html","AEO"],["geo.html","GEO"],["case-studies.html","Case Studies"],["reviews.html","Reviews"],["contact.html","Contact"]
 ];
-var GH = "https://github.com/" + USER + "/" + REPO;
-document.getElementById("newpage").href = GH + "/new/" + BRANCH;
-var rows = document.getElementById("rows");
+var GH = "https://github.com/" + USER + "/" + REPO, D = {}, ROW = {}, $ = function(i){ return document.getElementById(i); };
+$("newpage").href = GH + "/new/" + BRANCH;
 
 function store(k, v){ try { if (v === undefined) return localStorage.getItem(k) || ""; localStorage.setItem(k, v); } catch (e) { return ""; } }
-function cls(ok, warn){ return ok ? "ok" : (warn ? "warn" : "bad"); }
-function el(tag, text, c){ var e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (c) e.className = c; return e; }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function pill(c, t){ return '<span class="pill ' + c + '">' + esc(t) + '</span>'; }
+function plan(f){ try { return JSON.parse(store("plan:" + f) || "{}"); } catch (e) { return {}; } }
+function savePlan(f, p){ store("plan:" + f, JSON.stringify(p)); }
+function rng(n, a, b){ return n >= a && n <= b ? "ok" : (n > 0 ? "warn" : "bad"); }
 
-function metric(td, text, c, sub){
-  td.className = "cell"; td.appendChild(el("span", text, c));
-  if (sub) td.appendChild(el("small", sub));
+async function scanPage(f){
+  try {
+    var res = await fetch(f + "?t=" + Date.now(), {cache: "no-store"});
+    if (!res.ok) throw 0;
+    var doc = new DOMParser().parseFromString(await res.text(), "text/html"), m = doc.querySelector("main") || doc.body;
+    var title = (doc.title || "").trim(), md = doc.querySelector('meta[name="description"]');
+    var desc = md ? (md.getAttribute("content") || "").trim() : "";
+    var h1 = doc.querySelectorAll("h1").length, words = (m.textContent.trim().match(/\S+/g) || []).length;
+    var noalt = Array.prototype.filter.call(doc.images, function(i){ return !(i.getAttribute("alt") || "").trim(); }).length;
+    var og = !!(doc.querySelector('meta[property="og:title"]') && doc.querySelector('meta[property="og:description"]'));
+    var links = Array.prototype.map.call(doc.querySelectorAll("a[href]"), function(a){ return a.getAttribute("href"); });
+    var ext = links.filter(function(h){ return /^https?:/.test(h); }).length, inn = links.filter(function(h){ return !/^(https?:|mailto:|tel:|#)/.test(h); }).length;
+    var heads = Array.prototype.map.call(m.querySelectorAll("h1,h2,h3"), function(h){ return [h.tagName.toLowerCase(), h.textContent.trim()]; }).slice(0, 30);
+    var ck = [
+      ["Title is 30 to 60 characters (" + title.length + ")", rng(title.length, 30, 60), 1],
+      ["Description is 70 to 160 characters (" + desc.length + ")", rng(desc.length, 70, 160), 1],
+      ["Exactly one H1 (found " + h1 + ")", h1 === 1 ? "ok" : (h1 > 1 ? "warn" : "bad"), 1],
+      ["All images have alt text (" + noalt + " missing)", noalt ? "bad" : "ok", 1],
+      ["Social (Open Graph) tags present", og ? "ok" : "bad", 1],
+      ["At least 3 internal links (" + inn + ")", inn >= 3 ? "ok" : "warn", 1],
+      ["250+ words of content (" + words + ")", words >= 250 ? "ok" : "warn", 0]
+    ];
+    var pts = ck.reduce(function(a, c){ return a + (c[1] === "ok" ? 1 : c[1] === "warn" ? .5 : 0); }, 0);
+    D[f] = {ok: true, title: title, desc: desc, words: words, ck: ck, heads: heads, ext: ext, inn: inn,
+      score: Math.round(pts / ck.length * 100), issues: ck.filter(function(c){ return c[2] && c[1] !== "ok"; }).length};
+  } catch (e) { D[f] = {ok: false, issues: 1}; }
+  renderRow(f);
 }
 
-async function scanPage(p, tr){
-  var tds = tr.querySelectorAll("td"), r = {issues: 0, ok: false};
-  tds.forEach(function(t, i){ if (i > 0 && i < 7) t.textContent = ""; });
-  try {
-    var res = await fetch(p[0] + "?t=" + Date.now(), {cache: "no-store"});
-    if (!res.ok) throw new Error(res.status);
-    var doc = new DOMParser().parseFromString(await res.text(), "text/html");
-    var title = (doc.title || "").trim();
-    var md = doc.querySelector('meta[name="description"]');
-    var desc = md ? (md.getAttribute("content") || "").trim() : "";
-    var h1 = doc.querySelectorAll("h1").length;
-    var words = ((doc.querySelector("main") || doc.body).textContent.trim().match(/\S+/g) || []).length;
-    var noalt = Array.prototype.filter.call(doc.images, function(i){ return !(i.getAttribute("alt") || "").trim(); }).length;
-    var tOk = title.length >= 30 && title.length <= 60, dOk = desc.length >= 70 && desc.length <= 160;
-    r.ok = true;
-    metric(tds[1], "Live", "ok");
-    metric(tds[2], title.length + " chars", cls(tOk, title.length > 0), title || "Missing title");
-    metric(tds[3], desc.length + " chars", cls(dOk, desc.length > 0), desc || "Missing description");
-    metric(tds[4], String(h1), cls(h1 === 1, h1 > 1));
-    metric(tds[5], String(words), cls(words >= 250, words >= 100));
-    metric(tds[6], String(noalt), cls(noalt === 0));
-    r.issues = (tOk ? 0 : 1) + (dOk ? 0 : 1) + (h1 === 1 ? 0 : 1) + (noalt ? 1 : 0);
-  } catch (e) {
-    metric(tds[1], "Not found", "bad", "Upload " + p[0]);
-    r.issues = 1;
+function renderRow(f){
+  var d = D[f], c = ROW[f].children, p = plan(f);
+  if (!d) return;
+  if (!d.ok) { c[1].innerHTML = pill("bad", "Not found"); c[2].textContent = c[3].textContent = c[4].textContent = c[5].textContent = "-"; }
+  else {
+    c[1].innerHTML = pill("ok", "Live");
+    c[2].innerHTML = pill(d.score >= 80 ? "ok" : d.score >= 50 ? "warn" : "bad", d.score + "%");
+    c[3].innerHTML = '<span class="' + rng(d.title.length, 30, 60) + '">' + d.title.length + '</span>';
+    c[4].innerHTML = '<span class="' + rng(d.desc.length, 70, 160) + '">' + d.desc.length + '</span>';
+    c[5].textContent = d.words;
   }
-  return r;
+  c[6].innerHTML = pill("n", p.stage || "Draft");
+  filt();
+}
+
+function filt(){
+  var q = $("q").value.toLowerCase(), m = $("flt").value;
+  PAGES.forEach(function(p){
+    var d = D[p[0]], show = (p[1] + p[0]).toLowerCase().indexOf(q) > -1;
+    if (m === "issues") show = show && d && d.ok && d.issues > 0;
+    if (m === "missing") show = show && d && !d.ok;
+    ROW[p[0]].hidden = !show;
+  });
 }
 
 function build(){
   PAGES.forEach(function(p){
     var tr = document.createElement("tr");
-    var n = el("td"); n.className = "pn"; n.appendChild(el("b", p[1])); n.appendChild(el("small", p[0])); tr.appendChild(n);
-    for (var i = 0; i < 6; i++) tr.appendChild(el("td", "..."));
-    var sn = el("td"), sel = document.createElement("select");
-    ["Draft", "Needs work", "Ready", "Published"].forEach(function(s){ var o = el("option", s); sel.appendChild(o); });
-    sel.value = store("stage:" + p[0]) || "Draft";
-    sel.onchange = function(){ store("stage:" + p[0], sel.value); };
-    var note = document.createElement("input"); note.type = "text"; note.placeholder = "Note";
-    note.value = store("note:" + p[0]); note.style.marginTop = "6px";
-    note.oninput = function(){ store("note:" + p[0], note.value); };
-    sn.appendChild(sel); sn.appendChild(note); tr.appendChild(sn);
-    var ac = el("td"); ac.className = "acts";
-    var v = el("a", "View live"); v.href = p[0]; v.target = "_blank"; v.rel = "noopener";
-    var e = el("a", "Edit on GitHub"); e.href = GH + "/edit/" + BRANCH + "/" + p[0]; e.target = "_blank"; e.rel = "noopener";
-    ac.appendChild(v); ac.appendChild(e); tr.appendChild(ac);
-    tr._p = p; rows.appendChild(tr);
+    tr.innerHTML = '<td class="pn"><b>' + esc(p[1]) + '</b><small>' + esc(p[0]) + '</small></td><td>...</td><td></td><td></td><td></td><td></td><td></td>';
+    tr.onclick = function(){ openDrawer(p); };
+    ROW[p[0]] = tr; $("rows").appendChild(tr);
   });
+  $("q").oninput = $("flt").onchange = filt;
 }
 
 async function scanAll(){
-  document.getElementById("sub").textContent = "Scanning pages...";
-  var live = 0, issues = 0, trs = rows.children;
-  for (var i = 0; i < trs.length; i++){
-    var r = await scanPage(trs[i]._p, trs[i]);
-    if (r.ok) live++; issues += r.issues;
-  }
-  var sum = document.getElementById("sum"); sum.textContent = "";
-  [["Pages", PAGES.length], ["Live", live], ["Missing", PAGES.length - live], ["Issues found", issues]].forEach(function(x){
-    var d = el("div"); d.appendChild(el("b", String(x[1]))); d.appendChild(el("span", x[0])); sum.appendChild(d);
-  });
-  document.getElementById("sub").textContent = "Last scan: " + new Date().toLocaleTimeString();
+  $("sub").textContent = "Scanning pages...";
+  for (var i = 0; i < PAGES.length; i++) await scanPage(PAGES[i][0]);
+  var ds = PAGES.map(function(p){ return D[p[0]]; }), live = ds.filter(function(d){ return d.ok; });
+  var avg = live.length ? Math.round(live.reduce(function(a, d){ return a + d.score; }, 0) / live.length) : 0;
+  var issues = ds.reduce(function(a, d){ return a + d.issues; }, 0);
+  $("sum").innerHTML = [["Pages", PAGES.length], ["Live", live.length], ["Average score", avg + "%"], ["Issues found", issues]].map(function(x){ return "<div><b>" + x[1] + "</b><span>" + x[0] + "</span></div>"; }).join("");
+  $("sub").textContent = "Last scan: " + new Date().toLocaleTimeString();
 }
-document.getElementById("scan").onclick = scanAll;
 
-// ---- Login (browser-side lock, see note below) ----
-// Leave empty on first use: the page will show a form that creates this line for you.
-var CRED_HASH = "b3f330c7262e060062dcf0e826293e5e775b6bf57643cd4678891839a54c7fc5";
+// ---- GitHub saving (needs a token the user pastes; kept for this tab only) ----
+function tok(){ try { return sessionStorage.getItem("gh_token") || ""; } catch (e) { return ""; } }
+function gh(path, o){
+  o = o || {};
+  var h = {Authorization: "Bearer " + tok(), Accept: "application/vnd.github+json"};
+  if (o.body) h["Content-Type"] = "application/json";
+  return fetch("https://api.github.com/repos/" + USER + "/" + REPO + "/contents/" + path, {method: o.method || "GET", headers: h, body: o.body});
+}
+function ghErr(r){ return new Error(r.status === 401 ? "Token rejected. Check it and reconnect." : r.status === 403 || r.status === 404 ? "No access. The token needs Contents read and write on this repo." : r.status === 409 || r.status === 422 ? "The file changed on GitHub. Reload the page source and try again." : "GitHub error " + r.status); }
+async function ghGet(f){
+  var r = await gh(f + "?ref=" + BRANCH); if (!r.ok) throw ghErr(r);
+  var j = await r.json(), bin = atob(j.content.replace(/\n/g, ""));
+  return {sha: j.sha, text: new TextDecoder().decode(Uint8Array.from(bin, function(c){ return c.charCodeAt(0); }))};
+}
+async function ghPut(f, text, sha, msg){
+  var b = new TextEncoder().encode(text), s = "";
+  for (var i = 0; i < b.length; i += 8192) s += String.fromCharCode.apply(null, b.subarray(i, i + 8192));
+  var r = await gh(f, {method: "PUT", body: JSON.stringify({message: msg, content: btoa(s), sha: sha, branch: BRANCH})});
+  if (!r.ok) throw ghErr(r);
+}
+function say(id, t, c){ var e = $(id); e.className = "msg " + (c || ""); e.textContent = t; }
+
+function openDrawer(p){
+  var f = p[0], d = D[f] || {ok: false}, pl = plan(f), dr = $("dr"), url = location.origin + location.pathname.replace(/[^\/]*$/, "") + f;
+  var h = '<div class="dh"><div><h2>' + esc(p[1]) + '</h2><span class="mut">' + esc(f) + '</span><div style="margin-top:6px"><a href="' + f + '" target="_blank" rel="noopener">View live</a><a href="' + GH + "/edit/" + BRANCH + "/" + f + '" target="_blank" rel="noopener">Edit on GitHub</a></div></div><button class="x" id="cl" aria-label="Close">&times;</button></div>';
+  if (!d.ok) h += '<div class="sec"><h3>Page not found</h3><p>This file is not live yet. Upload ' + esc(f) + ' to your repo.</p></div>';
+  else {
+    h += '<div class="sec"><h3>Search preview</h3><div class="serp"><div class="u">' + esc(url) + '</div><div class="t">' + esc(d.title.slice(0, 60)) + '</div><div class="d">' + esc(d.desc.slice(0, 160)) + '</div></div></div>';
+    h += '<div class="sec"><h3>SEO checks &middot; ' + d.score + '%</h3>' + d.ck.map(function(c){ return '<div class="ck"><i class="' + c[1] + '">' + (c[1] === "ok" ? "&#10003;" : c[1] === "warn" ? "!" : "&#10007;") + '</i><span>' + esc(c[0]) + '</span></div>'; }).join("") + '<p class="mut" style="margin:8px 0 0">' + d.inn + ' internal and ' + d.ext + ' external links</p></div>';
+    h += '<div class="sec hl"><h3>Headings</h3>' + (d.heads.map(function(x){ return '<div class="' + x[0] + '">' + x[0].toUpperCase() + " &middot; " + esc(x[1]) + "</div>"; }).join("") || "None") + '</div>';
+  }
+  h += '<div class="sec"><h3>GitHub connection</h3><div id="tk"></div></div>';
+  if (d.ok) {
+    h += '<div class="sec"><h3>Quick edit</h3><label class="l">Title <span class="cnt" id="tc"></span></label><input id="et" value="' + esc(d.title) + '">'
+      + '<label class="l">Description <span class="cnt" id="dc"></span></label><textarea id="ed" rows="3">' + esc(d.desc) + '</textarea>'
+      + '<label class="todo"><input type="checkbox" id="eo" checked style="width:auto;margin:10px 8px 0 0">Also update social (Open Graph) tags</label>'
+      + '<button class="btn" id="qs" style="margin-top:12px">Save to GitHub</button><div id="qm" class="msg"></div></div>';
+    h += '<div class="sec"><h3>Page code</h3><p class="mut" style="margin:0 0 8px">Load the full HTML, change anything, and save.</p><button class="btn alt" id="ld">Load code</button><div id="sw" hidden><textarea class="src" id="src" spellcheck="false"></textarea><button class="btn" id="ss" style="margin-top:10px">Save code to GitHub</button></div><div id="sm" class="msg"></div></div>';
+  }
+  h += '<div class="sec"><h3>Planning</h3><div class="row2"><div><label class="l">Stage</label><select id="st">' + ["Draft", "Needs work", "Ready", "Published"].map(function(s){ return "<option" + (s === (pl.stage || "Draft") ? " selected" : "") + ">" + s + "</option>"; }).join("") + '</select></div><div><label class="l">Priority</label><select id="pr">' + ["Normal", "High", "Low"].map(function(s){ return "<option" + (s === (pl.prio || "Normal") ? " selected" : "") + ">" + s + "</option>"; }).join("") + '</select></div></div>'
+    + '<div class="todo" style="margin-top:10px">' + ["Title and description done", "Content reviewed", "Internal links added", "Images and alt text done", "Ready to publish"].map(function(t, i){ return '<label><input type="checkbox" data-i="' + i + '"' + ((pl.todo || {})[i] ? " checked" : "") + ">" + t + "</label>"; }).join("") + '</div>'
+    + '<label class="l">Notes</label><textarea id="nt" rows="3">' + esc(pl.note || "") + '</textarea></div>';
+  dr.innerHTML = h; dr.hidden = $("ov").hidden = false;
+  var close = function(){ dr.hidden = $("ov").hidden = true; };
+  $("cl").onclick = $("ov").onclick = close;
+
+  function tkUi(){
+    $("tk").innerHTML = tok() ? '<p class="mut" style="margin:0 0 8px">Connected for this tab only.</p><button class="btn alt" id="td">Disconnect</button>'
+      : '<p class="mut" style="margin:0 0 8px">To save edits from here, <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">create a fine-grained token</a> for this repo only, with Contents set to read and write. Paste it below. It is kept in this browser tab only and cleared when you close it.</p><input id="tv" type="password" placeholder="Paste token"><button class="btn" id="tc2" style="margin-top:8px">Connect</button>';
+    if ($("td")) $("td").onclick = function(){ try { sessionStorage.removeItem("gh_token"); } catch (e) {} tkUi(); };
+    if ($("tc2")) $("tc2").onclick = function(){ var v = $("tv").value.trim(); if (v) { try { sessionStorage.setItem("gh_token", v); } catch (e) {} tkUi(); } };
+  }
+  tkUi();
+
+  var pe = function(){ var q = plan(f); q.stage = $("st").value; q.prio = $("pr").value; q.note = $("nt").value; q.todo = {}; dr.querySelectorAll("[data-i]").forEach(function(c){ q.todo[c.dataset.i] = c.checked; }); savePlan(f, q); renderRow(f); };
+  $("st").onchange = $("pr").onchange = $("nt").oninput = pe; dr.querySelectorAll("[data-i]").forEach(function(c){ c.onchange = pe; });
+  if (!d.ok) return;
+
+  var cnt = function(){ $("tc").textContent = $("et").value.length + " / 60"; $("dc").textContent = $("ed").value.length + " / 160"; };
+  $("et").oninput = $("ed").oninput = cnt; cnt();
+  var need = function(m){ if (!tok()) { say(m, "Connect GitHub above first.", "bad"); return false; } return true; };
+  $("qs").onclick = async function(){
+    if (!need("qm")) return; var b = this; b.disabled = true; say("qm", "Saving...");
+    try {
+      var t = $("et").value.trim(), ds = $("ed").value.trim(), g = await ghGet(f), x = g.text, n = 0;
+      var sub = function(re, v){ if (re.test(x)) { x = x.replace(re, function(){ return v; }); n++; } };
+      sub(/<title>[\s\S]*?<\/title>/i, "<title>" + esc(t) + "</title>");
+      sub(/<meta\s+name="description"\s+content="[^"]*"/i, '<meta name="description" content="' + esc(ds) + '"');
+      if ($("eo").checked) { sub(/<meta\s+property="og:title"\s+content="[^"]*"/i, '<meta property="og:title" content="' + esc(t) + '"'); sub(/<meta\s+property="og:description"\s+content="[^"]*"/i, '<meta property="og:description" content="' + esc(ds) + '"'); }
+      if (!n) throw new Error("Could not find the title or description tags in this file.");
+      await ghPut(f, x, g.sha, "Update title and description: " + f);
+      say("qm", "Saved. GitHub Pages updates in about a minute, then click Rescan all.", "ok");
+    } catch (e) { say("qm", e.message, "bad"); }
+    b.disabled = false;
+  };
+  $("ld").onclick = async function(){
+    if (!need("sm")) return; say("sm", "Loading...");
+    try { var g = await ghGet(f); $("src").value = g.text; $("sw").hidden = false; say("sm", ""); } catch (e) { say("sm", e.message, "bad"); }
+  };
+  $("ss").onclick = async function(){
+    var b = this; b.disabled = true; say("sm", "Saving...");
+    try { var g = await ghGet(f); await ghPut(f, $("src").value, g.sha, "Edit page from dashboard: " + f); say("sm", "Saved. GitHub Pages updates in about a minute, then click Rescan all.", "ok"); } catch (e) { say("sm", e.message, "bad"); }
+    b.disabled = false;
+  };
+}
+
+$("scan").onclick = scanAll;
+
+// ---- Login (browser-side lock) ----
+// Keep your own CRED_HASH line here. If it is empty, the page shows a form that creates one.
+var CRED_HASH = "";
 var SALT = "nayeem-origin-dashboard";
 async function hashLogin(u, p){
   var enc = new TextEncoder();
@@ -165,39 +281,24 @@ async function hashLogin(u, p){
   var bits = await crypto.subtle.deriveBits({name: "PBKDF2", salt: enc.encode(SALT + ":" + u.trim().toLowerCase()), iterations: 200000, hash: "SHA-256"}, key, 256);
   return Array.from(new Uint8Array(bits)).map(function(b){ return b.toString(16).padStart(2, "0"); }).join("");
 }
-function startApp(){
-  document.getElementById("login").hidden = true;
-  document.getElementById("app").hidden = false;
-  build(); scanAll();
-}
-document.getElementById("logout").onclick = function(){ try { sessionStorage.removeItem("dash_ok"); } catch (e) {} location.reload(); };
-var fails = 0, msg = document.getElementById("msg"), lform = document.getElementById("lform");
+function startApp(){ $("login").hidden = true; $("app").hidden = false; build(); scanAll(); }
+$("logout").onclick = function(){ try { sessionStorage.removeItem("dash_ok"); sessionStorage.removeItem("gh_token"); } catch (e) {} location.reload(); };
+var fails = 0, msg = $("msg"), lform = $("lform");
 if (!CRED_HASH) {
-  document.getElementById("ltitle").textContent = "Create your login";
-  document.getElementById("lbtn").textContent = "Create login";
-  document.getElementById("p").autocomplete = "new-password";
-  document.getElementById("p").minLength = 12;
-  msg.textContent = "";
+  $("ltitle").textContent = "Create your login"; $("lbtn").textContent = "Create login";
+  $("p").autocomplete = "new-password"; $("p").minLength = 12;
   lform.insertAdjacentHTML("afterbegin", "<p>First-time setup. Choose a username and a password of at least 12 characters.</p>");
 }
 var saved = ""; try { saved = sessionStorage.getItem("dash_ok") || ""; } catch (e) {}
 if (CRED_HASH && saved === CRED_HASH) startApp();
 lform.onsubmit = async function(ev){
   ev.preventDefault();
-  var u = document.getElementById("u").value, p = document.getElementById("p").value;
-  var btn = document.getElementById("lbtn"); btn.disabled = true; msg.textContent = "";
+  var btn = $("lbtn"); btn.disabled = true; msg.textContent = "";
   try {
-    var h = await hashLogin(u, p);
-    if (!CRED_HASH) {
-      lform.hidden = true; document.getElementById("setup").hidden = false;
-      document.getElementById("out").textContent = 'var CRED_HASH = "' + h + '";';
-    } else if (h === CRED_HASH) {
-      try { sessionStorage.setItem("dash_ok", h); } catch (e) {}
-      startApp();
-    } else {
-      fails++; msg.textContent = "Wrong username or password.";
-      await new Promise(function(r){ setTimeout(r, Math.min(fails * 1500, 10000)); });
-    }
+    var h = await hashLogin($("u").value, $("p").value);
+    if (!CRED_HASH) { lform.hidden = true; $("setup").hidden = false; $("out").textContent = 'var CRED_HASH = "' + h + '";'; }
+    else if (h === CRED_HASH) { try { sessionStorage.setItem("dash_ok", h); } catch (e) {} startApp(); }
+    else { fails++; msg.textContent = "Wrong username or password."; await new Promise(function(r){ setTimeout(r, Math.min(fails * 1500, 10000)); }); }
   } catch (e) { msg.textContent = "Login needs a secure (https) page."; }
   btn.disabled = false;
 };
