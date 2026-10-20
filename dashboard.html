@@ -31,25 +31,46 @@ tr:last-child td{border-bottom:0}
 select,input[type=text]{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font:inherit}
 .acts a{display:block;color:var(--acc);text-decoration:none;font-weight:600;font-size:14px}
 .acts a:hover{text-decoration:underline}
+[hidden]{display:none!important}
+#login{max-width:420px;margin:12vh auto;padding:0 16px}
+#login .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+#login h1{font-size:22px}
+#login label{display:block;margin:14px 0 4px;font-weight:600;font-size:14px}
+#login input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
+#login .btn{margin-top:18px;width:100%}
+#login p{color:var(--mut);font-size:13px}
+#msg{color:var(--bad);min-height:20px}
+#out{font:13px/1.4 ui-monospace,Consolas,monospace;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;word-break:break-all;white-space:pre-wrap;user-select:all}
 .note{color:var(--mut);font-size:13px;margin-top:14px}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div id="login"><div class="box">
+<h1 id="ltitle">Dashboard login</h1>
+<form id="lform" autocomplete="off">
+<label for="u">Username</label><input id="u" type="text" autocomplete="username" required>
+<label for="p">Password</label><input id="p" type="password" autocomplete="current-password" required minlength="8">
+<div id="msg" role="alert"></div>
+<button class="btn" id="lbtn" type="submit">Log in</button>
+</form>
+<div id="setup" hidden><p>Copy the line below, then in GitHub open dashboard.html, click the pencil icon, and replace the line that starts with <b>var CRED_HASH</b>. Commit the change and reload this page.</p><div id="out"></div></div>
+</div></div>
+<div id="app" hidden><div class="wrap">
 <div class="top">
 <div><h1>Site dashboard</h1><p class="sub" id="sub">Scanning pages...</p></div>
-<div><button class="btn" id="scan" type="button">Scan again</button> <a class="btn alt" id="newpage" target="_blank" rel="noopener">Add new page</a></div>
+<div><button class="btn" id="scan" type="button">Scan again</button> <button class="btn alt" id="logout" type="button">Log out</button> <a class="btn alt" id="newpage" target="_blank" rel="noopener">Add new page</a></div>
 </div>
 <div class="sum" id="sum"></div>
 <div class="tw"><table>
 <thead><tr><th>Page</th><th>Status</th><th>Title</th><th>Description</th><th>H1</th><th>Words</th><th>Images no alt</th><th>Stage and notes</th><th>Actions</th></tr></thead>
 <tbody id="rows"></tbody>
 </table></div>
-<p class="note">Rules: title 30 to 60 characters, description 70 to 160, exactly one H1. Stage and notes are saved in this browser only. This page is hidden from search engines but not password protected, so keep private information out of it. The scan only works on the live site, not when the file is opened from your computer.</p>
-</div>
+<p class="note">Rules: title 30 to 60 characters, description 70 to 160, exactly one H1. Stage and notes are saved in this browser only. The login is a basic lock that runs in your browser, so keep private information out of this page. The scan only works on the live site, not when the file is opened from your computer.</p>
+</div></div>
 <script>
 // ---- Edit these if your repo changes ----
-var USER = "hmjoy816-boop", REPO = "DJ-Nayeem", BRANCH = "main";
+var USER = "hmjoy816-boop", REPO = "DJ-nayeem-bro", BRANCH = "main";
+if (/\.github\.io$/.test(location.hostname)) { USER = location.hostname.split(".")[0]; var seg = location.pathname.split("/")[1]; if (seg && !/\.html$/.test(seg)) REPO = seg; }
 var PAGES = [
  ["index.html","Home"],["about.html","About"],["services.html","Services"],
  ["seo-audit.html","SEO Audit"],["technical-seo.html","Technical SEO"],["keyword-research.html","Keyword Research"],
@@ -132,8 +153,54 @@ async function scanAll(){
   });
   document.getElementById("sub").textContent = "Last scan: " + new Date().toLocaleTimeString();
 }
-build(); scanAll();
 document.getElementById("scan").onclick = scanAll;
+
+// ---- Login (browser-side lock, see note below) ----
+// Leave empty on first use: the page will show a form that creates this line for you.
+var CRED_HASH = "";
+var SALT = "nayeem-origin-dashboard";
+async function hashLogin(u, p){
+  var enc = new TextEncoder();
+  var key = await crypto.subtle.importKey("raw", enc.encode(p), "PBKDF2", false, ["deriveBits"]);
+  var bits = await crypto.subtle.deriveBits({name: "PBKDF2", salt: enc.encode(SALT + ":" + u.trim().toLowerCase()), iterations: 200000, hash: "SHA-256"}, key, 256);
+  return Array.from(new Uint8Array(bits)).map(function(b){ return b.toString(16).padStart(2, "0"); }).join("");
+}
+function startApp(){
+  document.getElementById("login").hidden = true;
+  document.getElementById("app").hidden = false;
+  build(); scanAll();
+}
+document.getElementById("logout").onclick = function(){ try { sessionStorage.removeItem("dash_ok"); } catch (e) {} location.reload(); };
+var fails = 0, msg = document.getElementById("msg"), lform = document.getElementById("lform");
+if (!CRED_HASH) {
+  document.getElementById("ltitle").textContent = "Create your login";
+  document.getElementById("lbtn").textContent = "Create login";
+  document.getElementById("p").autocomplete = "new-password";
+  document.getElementById("p").minLength = 12;
+  msg.textContent = "";
+  lform.insertAdjacentHTML("afterbegin", "<p>First-time setup. Choose a username and a password of at least 12 characters.</p>");
+}
+var saved = ""; try { saved = sessionStorage.getItem("dash_ok") || ""; } catch (e) {}
+if (CRED_HASH && saved === CRED_HASH) startApp();
+lform.onsubmit = async function(ev){
+  ev.preventDefault();
+  var u = document.getElementById("u").value, p = document.getElementById("p").value;
+  var btn = document.getElementById("lbtn"); btn.disabled = true; msg.textContent = "";
+  try {
+    var h = await hashLogin(u, p);
+    if (!CRED_HASH) {
+      lform.hidden = true; document.getElementById("setup").hidden = false;
+      document.getElementById("out").textContent = 'var CRED_HASH = "' + h + '";';
+    } else if (h === CRED_HASH) {
+      try { sessionStorage.setItem("dash_ok", h); } catch (e) {}
+      startApp();
+    } else {
+      fails++; msg.textContent = "Wrong username or password.";
+      await new Promise(function(r){ setTimeout(r, Math.min(fails * 1500, 10000)); });
+    }
+  } catch (e) { msg.textContent = "Login needs a secure (https) page."; }
+  btn.disabled = false;
+};
 </script>
 </body>
 </html>
