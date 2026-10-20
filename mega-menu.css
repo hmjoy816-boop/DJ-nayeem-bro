@@ -1,0 +1,61 @@
+/* Mega menu for "Services". Load AFTER style.css.
+   Uses --accent from style.css if it exists, otherwise a fallback blue. */
+
+header .wrap { position: relative; }
+
+.has-mega { display: inline-flex; align-items: center; gap: 2px; position: static; }
+.mega-toggle {
+  background: none; border: 0; padding: 6px; margin: 0; cursor: pointer;
+  color: inherit; font: inherit; line-height: 1; display: inline-flex; align-items: center;
+}
+.mega-toggle svg { width: 12px; height: 12px; transition: transform .2s ease; }
+.has-mega.open .mega-toggle svg { transform: rotate(180deg); }
+.mega-toggle:focus-visible,
+.mega a:focus-visible { outline: 2px solid var(--accent, #2563eb); outline-offset: 2px; border-radius: 4px; }
+
+.mega {
+  position: absolute; left: 0; right: 0; top: 100%;
+  z-index: 200;
+  display: grid; grid-template-columns: repeat(4, 1fr) 1.1fr; gap: 28px;
+  padding: 28px 30px;
+  background: #fff; color: #111827;
+  border: 1px solid #e5e7eb; border-radius: 12px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, .14);
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  text-align: left;
+}
+/* invisible bridge so the pointer can travel from the link to the panel */
+.mega::before { content: ""; position: absolute; left: 0; right: 0; top: -40px; height: 40px; }
+.has-mega.open .mega { opacity: 1; visibility: visible; transform: none; }
+
+.mega h3 { margin: 0 0 10px; font-size: 15px; color: #111827; }
+.mega a.item { display: block; padding: 8px 10px; margin: 0 -10px 2px; border-radius: 8px; text-decoration: none; color: #111827; }
+.mega a.item:hover { background: #f3f4f6; }
+.mega a.item b { display: block; font-size: 15px; font-weight: 600; }
+.mega a.item span { display: block; margin-top: 2px; font-size: 13px; line-height: 1.4; color: #6b7280; }
+
+.mega .mega-cta { background: #f3f6ff; border-radius: 10px; padding: 18px; align-self: start; }
+.mega .mega-cta p { margin: 0 0 12px; font-size: 14px; line-height: 1.5; color: #374151; }
+.mega .mega-cta .btn { display: inline-block; }
+
+@media (max-width: 1000px) {
+  .mega { grid-template-columns: repeat(2, 1fr); }
+  .mega .mega-cta { grid-column: 1 / -1; }
+}
+
+/* Mobile: panel opens inline under the Services link */
+@media (max-width: 860px) {
+  .has-mega { display: flex; flex-wrap: wrap; width: 100%; position: static; }
+  .mega {
+    position: static; display: none; width: 100%;
+    grid-template-columns: 1fr; gap: 14px; padding: 14px;
+    opacity: 1; visibility: visible; transform: none; box-shadow: none; margin-top: 6px;
+  }
+  .mega::before { display: none; }
+  .has-mega.open .mega { display: grid; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mega, .mega-toggle svg { transition: none; }
+}
